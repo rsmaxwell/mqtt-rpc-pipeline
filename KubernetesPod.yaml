@@ -28,7 +28,7 @@ spec:
       name: golang-data
 
   - name: maven
-    image: maven:maven:3.9.12-eclipse-temurin-25-noble
+    image: maven:3.9.12-eclipse-temurin-25-noble
     command:
     - cat
     tty: true
