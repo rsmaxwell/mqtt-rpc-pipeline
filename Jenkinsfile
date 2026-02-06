@@ -4,23 +4,24 @@ pipeline {
       yamlFile 'KubernetesPod.yaml'
     }
   }
+
+  environment {
+    FAMILY = 'linux'
+    ARCHITECTURE = 'amd64'
+  }
+
+
   stages {
 
     stage('prepare') {
       steps {
         container('tools') {
           dir('project') {
-            echo 'preparing the module'
+            echo "preparing the application (FAMILY=${env.FAMILY}, ARCH=${env.ARCHITECTURE})"
             checkout([
               $class: 'GitSCM', 
               branches: [[name: '*/main']], 
-              extensions: [[$class: 'SubmoduleOption',
-                disableSubmodules: false,
-                parentCredentials: false,
-                recursiveSubmodules: false,
-                reference: '',
-                trackingSubmodules: false
-            ]], 
+              extensions: [], 
               userRemoteConfigs: [[url: 'https://github.com/rsmaxwell/mqtt-rpc']]
             ])
             sh('./scripts/prepare.sh')
@@ -33,7 +34,7 @@ pipeline {
       steps {
         container('gradle') {
           dir('project') {
-            echo 'building and deploying the module'
+            echo 'deploying the application'
             sh('./scripts/deploy.sh')
           }
         }
