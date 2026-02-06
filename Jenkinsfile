@@ -19,10 +19,18 @@ pipeline {
           dir('project') {
             echo "preparing the application (FAMILY=${env.FAMILY}, ARCH=${env.ARCHITECTURE})"
             checkout([
-              $class: 'GitSCM', 
-              branches: [[name: '*/main']], 
-              extensions: [], 
-              userRemoteConfigs: [[url: 'https://github.com/rsmaxwell/mqtt-rpc']]
+              $class: 'GitSCM',
+              branches: [[name: '*/main']],
+              userRemoteConfigs: [[url: 'https://github.com/rsmaxwell/mqtt-rpc']],
+              extensions: [
+                [$class: 'SubmoduleOption',
+                  disableSubmodules: false,
+                  recursiveSubmodules: true,
+                  parentCredentials: true,
+                  reference: '',
+                  trackingSubmodules: false
+                ]
+              ]
             ])
             sh('./scripts/prepare.sh')
           }
