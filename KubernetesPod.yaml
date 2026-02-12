@@ -4,8 +4,14 @@ kind: Pod
 metadata:
   name: mypod
 spec:
+
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
   containers:
-  
+
   - name: tools
     image: rsmaxwell/tools:latest
     command:
