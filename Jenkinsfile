@@ -17,7 +17,7 @@ pipeline {
       steps {
         container('tools') {
           dir('project') {
-            echo "preparing the application (FAMILY=${env.FAMILY}, ARCH=${env.ARCHITECTURE})"
+            echo "prepare the application (FAMILY=${env.FAMILY}, ARCH=${env.ARCHITECTURE})"
             checkout([
               $class: 'GitSCM',
               branches: [[name: '*/main']],
@@ -42,7 +42,7 @@ pipeline {
       steps {
         container('gradle') {
           dir('project') {
-            echo 'deploying the application'
+            echo 'build and deploy the application'
             sh('./scripts/deploy.sh')
           }
         }
