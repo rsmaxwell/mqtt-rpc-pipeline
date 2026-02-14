@@ -39,6 +39,9 @@ pipeline {
     }
 
     stage('deploy') {
+      environment {
+        GRADLE_USER_HOME = '/home/gradle/.gradle'
+      }
       steps {
         container('gradle') {
           dir('project') {
