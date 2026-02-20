@@ -28,8 +28,16 @@ pipeline {
                   recursiveSubmodules: true,
                   parentCredentials: true,
                   reference: '',
-                  trackingSubmodules: false
-                ]
+                  trackingSubmodules: false,
+                  noTags: false    // <-- key bit: fetch tags
+                ],
+                [
+                  $class: 'CloneOption',
+                  noTags: false,   // <-- key bit: fetch tags
+                  shallow: false,
+                  depth: 0,
+                  timeout: 10
+                ],
               ]
             ])
             sh('./scripts/prepare.sh')
